@@ -1,0 +1,114 @@
+
+==================================================
+Linear Probing  h(k,i)=(k mod 10 + i) mod 10
+==================================================
+INSERTION TRACE
+Key   h1   h2   Probes  Positions tried Result
+23    3    -    1       3              inserted
+   table: [ - ][ - ][ - ][ 23][ - ][ - ][ - ][ - ][ - ][ - ]
+43    3    -    2       3,4            inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ - ][ - ][ - ][ - ][ - ]
+13    3    -    3       3,4,5          inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ 13][ - ][ - ][ - ][ - ]
+33    3    -    4       3,4,5,6        inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ 13][ 33][ - ][ - ][ - ]
+53    3    -    5       3,4,5,6,7      inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ 13][ 33][ 53][ - ][ - ]
+63    3    -    6       3,4,5,6,7,8    inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ 13][ 33][ 53][ 63][ - ]
+73    3    -    7       3,4,5,6,7,8,9  inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ 13][ 33][ 53][ 63][ 73]
+
+FINAL TABLE
+  Index :    0    1    2    3    4    5    6    7    8    9
+  Value :    -    -    -   23   43   13   33   53   63   73
+Keys inserted = 7 of 7, Load factor alpha = 7/10 = 0.70
+Total insertion probes = 28 (avg 4.00)
+
+SEARCH TRACE
+Key   Result       Probes 
+23    found        1      
+43    found        2      
+73    found        7      
+83    not found    8      
+99    not found    2      
+5     not found    6      
+Total search probes = 26 (avg 4.33)
+
+==================================================
+Quadratic Probing  h(k,i)=(k mod 10 + i^2) mod 10
+==================================================
+INSERTION TRACE
+Key   h1   h2   Probes  Positions tried Result
+23    3    -    1       3              inserted
+   table: [ - ][ - ][ - ][ 23][ - ][ - ][ - ][ - ][ - ][ - ]
+43    3    -    2       3,4            inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ - ][ - ][ - ][ - ][ - ]
+13    3    -    3       3,4,7          inserted
+   table: [ - ][ - ][ - ][ 23][ 43][ - ][ - ][ 13][ - ][ - ]
+33    3    -    4       3,4,7,2        inserted
+   table: [ - ][ - ][ 33][ 23][ 43][ - ][ - ][ 13][ - ][ - ]
+53    3    -    5       3,4,7,2,9      inserted
+   table: [ - ][ - ][ 33][ 23][ 43][ - ][ - ][ 13][ - ][ 53]
+63    3    -    6       3,4,7,2,9,8    inserted
+   table: [ - ][ - ][ 33][ 23][ 43][ - ][ - ][ 13][ 63][ 53]
+73    3    -    10      3,4,7,2,9,8,9,2,7,4 FAILED (no free slot reachable)
+   table: [ - ][ - ][ 33][ 23][ 43][ - ][ - ][ 13][ 63][ 53]
+
+FINAL TABLE
+  Index :    0    1    2    3    4    5    6    7    8    9
+  Value :    -    -   33   23   43    -    -   13   63   53
+Keys inserted = 6 of 7, Load factor alpha = 6/10 = 0.60
+Total insertion probes = 31 (avg 4.43)
+
+SEARCH TRACE
+Key   Result       Probes 
+23    found        1      
+43    found        2      
+73    not found    10     
+83    not found    10     
+99    not found    2      
+5     not found    1      
+Total search probes = 26 (avg 4.33)
+
+==================================================
+Double Hashing  h(k,i)=(k mod 10 + i*(7-(k mod 7))) mod 10
+==================================================
+INSERTION TRACE
+Key   h1   h2   Probes  Positions tried Result
+23    3    5    1       3              inserted
+   table: [ - ][ - ][ - ][ 23][ - ][ - ][ - ][ - ][ - ][ - ]
+43    3    6    2       3,9            inserted
+   table: [ - ][ - ][ - ][ 23][ - ][ - ][ - ][ - ][ - ][ 43]
+13    3    1    2       3,4            inserted
+   table: [ - ][ - ][ - ][ 23][ 13][ - ][ - ][ - ][ - ][ 43]
+33    3    2    2       3,5            inserted
+   table: [ - ][ - ][ - ][ 23][ 13][ 33][ - ][ - ][ - ][ 43]
+53    3    3    2       3,6            inserted
+   table: [ - ][ - ][ - ][ 23][ 13][ 33][ 53][ - ][ - ][ 43]
+63    3    7    2       3,0            inserted
+   table: [ 63][ - ][ - ][ 23][ 13][ 33][ 53][ - ][ - ][ 43]
+73    3    4    2       3,7            inserted
+   table: [ 63][ - ][ - ][ 23][ 13][ 33][ 53][ 73][ - ][ 43]
+
+FINAL TABLE
+  Index :    0    1    2    3    4    5    6    7    8    9
+  Value :   63    -    -   23   13   33   53   73    -   43
+Keys inserted = 7 of 7, Load factor alpha = 7/10 = 0.70
+Total insertion probes = 13 (avg 1.86)
+
+SEARCH TRACE
+Key   Result       Probes 
+23    found        1      
+43    found        2      
+73    found        2      
+83    not found    6      
+99    not found    3      
+5     not found    4      
+Total search probes = 18 (avg 3.00)
+
+SUMMARY
+Method       Insert probes    Search probes   
+Linear       28               26              
+Quadratic    31               26              
+Double       13               18              
